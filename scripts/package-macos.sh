@@ -2,7 +2,14 @@
 set -euo pipefail
 project_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$project_dir"
-"${CARGO:-$HOME/.cargo/bin/cargo}" build --locked --release -p rsquish -p rsquish-desktop
+cargo_bin="${CARGO:-}"
+if [[ -z "$cargo_bin" ]]; then
+  cargo_bin="$(command -v cargo || true)"
+fi
+if [[ -z "$cargo_bin" ]]; then
+  cargo_bin="$HOME/.cargo/bin/cargo"
+fi
+"$cargo_bin" build --locked --release -p rsquish -p rsquish-desktop
 bundle="$project_dir/dist/rsquish.app"
 mkdir -p "$bundle/Contents/MacOS" "$bundle/Contents/Resources"
 cp target/release/rsquish-desktop "$bundle/Contents/MacOS/rsquish"
@@ -36,7 +43,7 @@ codesign --force --sign - "$bundle"
 codesign --verify --strict "$bundle"
 otool -L dist/rsquish > dist/cli-linkage.txt
 otool -L "$bundle/Contents/MacOS/rsquish" > dist/desktop-linkage.txt
-if rg '/opt/homebrew|/usr/local' dist/*-linkage.txt; then
+if grep -E '/opt/homebrew|/usr/local' dist/*-linkage.txt; then
   echo 'Unexpected non-system runtime dependency' >&2
   exit 1
 fi
