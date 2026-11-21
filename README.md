@@ -12,7 +12,7 @@
   <img alt="JPEG, WebP and AVIF output" src="https://img.shields.io/badge/output-JPEG%20%C2%B7%20WebP%20%C2%B7%20AVIF-242424?style=flat-square">
   <img alt="Local processing" src="https://img.shields.io/badge/processing-local-347047?style=flat-square">
 </p>
-<p align="center"><a href="#quick-start">Quick start</a> · <a href="#measured-not-guessed">Benchmarks</a> · <a href="#where-the-speed-comes-from">Under the hood</a> · <a href="#desktop">Desktop</a> · <a href="#build-from-source">Build</a></p>
+<p align="center"><a href="https://github.com/catuscio/rsquish/releases/latest">Download</a> · <a href="#quick-start">Quick start</a> · <a href="#measured-not-guessed">Benchmarks</a> · <a href="#where-the-speed-comes-from">Under the hood</a> · <a href="#desktop">Desktop</a> · <a href="#build-from-source">Build</a></p>
 
 ---
 
@@ -130,7 +130,7 @@ A focused interface for everyday batches:
 - Follow each image's progress while the batch shows completed and running counts.
 - Cancel running work together; undispatched images remain queued for the next start.
 
-The current interface is in Korean. Presets are convenient starting values, not visual-quality guarantees. A changed option does not silently deselect the chosen preset.
+Choose **한국어 or English** from the language selector at the top. The first launch follows your system language (English for other languages); your choice is saved and applies immediately without stopping a batch. Native file-picker buttons follow macOS language settings. Presets are convenient starting values, not visual-quality guarantees. A changed option does not silently deselect the chosen preset.
 
 ## Formats & boundaries
 
@@ -148,6 +148,18 @@ Quality 100 is not a lossless-output switch. Unsupported input types are rejecte
 
 Cancellation and soft deadlines are checked at processing boundaries; an in-flight native codec call is not forcibly interrupted. Already saved results remain on disk. Exit codes: `0` success, `1` processing error, `2` unmet constraint/time limit without a result, `130` cancellation. Invalid CLI arguments also use `2`.
 
+## Download
+
+Get the **[latest release](https://github.com/catuscio/rsquish/releases/latest)** for Apple Silicon, macOS 26.5+:
+
+- `*-app.zip` — extract and move **rsquish.app** to Applications.
+- `*-cli.tar.gz` — extract and run `./rsquish --help`.
+- `SHA256SUMS` — verify downloaded archives with `shasum -a 256 -c SHA256SUMS`.
+
+The app is ad-hoc signed, **not Developer ID signed or notarized**. If macOS blocks it and you trust the download, see [Apple’s opening instructions](https://support.apple.com/en-us/102445). Building from source is also supported.
+
+Version tags (`v0.1.0`, for example) trigger the release workflow: tests, static-link checks, app signing verification, ZIP/tar packaging, SHA-256 checksums, then publication to GitHub Releases. The tag must match the built CLI and desktop versions. Release binaries currently target Apple Silicon only.
+
 ## Build from source
 
 **Current build path: Apple Silicon macOS.** Install Rust and Xcode Command Line Tools, then the native development dependencies:
@@ -161,7 +173,7 @@ cargo test --locked --release --workspace
 bash scripts/package-macos.sh
 ```
 
-Outputs: `dist/rsquish` and `dist/rsquish.app`. The packaging script verifies ad-hoc signing and checks that no Homebrew runtime dylib dependency leaked into either executable. This is a local build, not a notarized public release or a published Homebrew formula.
+Outputs: `dist/rsquish` and `dist/rsquish.app`. The packaging script verifies ad-hoc signing and checks that no Homebrew runtime dylib dependency leaked into either executable. Release archives use the same packaging checks. They are not Developer ID signed or notarized.
 
 Cargo dependencies and the libavif source commit are pinned; Homebrew-provided static archives are **not** pinned by Cargo. Their versions and deployment targets matter. See [native codec build notes](crates/raster-codecs/README.md). Supporting older macOS releases requires rebuilding those dependencies for the older target; changing a version string is not enough.
 

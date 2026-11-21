@@ -10,6 +10,11 @@ if [[ -z "$cargo_bin" ]]; then
   cargo_bin="$HOME/.cargo/bin/cargo"
 fi
 "$cargo_bin" build --locked --release -p rsquish -p rsquish-desktop
+version="$(target/release/rsquish --version)"
+version="${version#rsquish }"
+[[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo 'Invalid app version.' >&2; exit 1; }
+config_version="$(plutil -extract version raw desktop/tauri.conf.json)"
+[[ "$version" == "$config_version" ]] || { echo 'CLI and desktop versions differ.' >&2; exit 1; }
 bundle="$project_dir/dist/rsquish.app"
 mkdir -p "$bundle/Contents/MacOS" "$bundle/Contents/Resources"
 cp target/release/rsquish-desktop "$bundle/Contents/MacOS/rsquish"
@@ -23,7 +28,7 @@ cp crates/raster-metric/LICENSE "$bundle/Contents/Resources/SSIMULACRA2-LICENSE.
 cp crates/raster-metric/LICENSE dist/SSIMULACRA2-LICENSE.txt
 cp crates/raster-core/IMAGE-LICENSE-MIT "$bundle/Contents/Resources/IMAGE-LICENSE-MIT.txt"
 cp crates/raster-core/IMAGE-LICENSE-MIT dist/IMAGE-LICENSE-MIT.txt
-cat > "$bundle/Contents/Info.plist" <<'PLIST'
+cat > "$bundle/Contents/Info.plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict>
@@ -33,9 +38,10 @@ cat > "$bundle/Contents/Info.plist" <<'PLIST'
 <key>CFBundleDisplayName</key><string>rsquish</string>
 <key>CFBundleIconFile</key><string>rsquish.icns</string>
 <key>CFBundlePackageType</key><string>APPL</string>
-<key>CFBundleShortVersionString</key><string>0.1.0</string>
-<key>CFBundleVersion</key><string>1</string>
+<key>CFBundleShortVersionString</key><string>$version</string>
+<key>CFBundleVersion</key><string>$version</string>
 <key>LSMinimumSystemVersion</key><string>26.5</string>
+<key>CFBundleLocalizations</key><array><string>en</string><string>ko</string></array>
 <key>NSHighResolutionCapable</key><true/>
 </dict></plist>
 PLIST
