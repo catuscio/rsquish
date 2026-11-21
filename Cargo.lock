@@ -3330,7 +3330,7 @@ dependencies = [
  "rayon",
  "ssimulacra2",
  "thiserror 2.0.21",
- "yuvxyb",
+ "yuvxyb 0.6.0",
  "yuvxyb-math",
 ]
 
@@ -3541,6 +3541,15 @@ name = "rustversion"
 version = "1.0.23"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cf54715a573b99ac80df0bc206da022bcd442c974952c7b9720069370852e21f"
+
+[[package]]
+name = "safe_arch"
+version = "1.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "42c6efa15875e6ecb39ca61fb0b0c1a40b84fac5a5ffe71eef7d1000c8eb3f5f"
+dependencies = [
+ "bytemuck",
+]
 
 [[package]]
 name = "same-file"
@@ -3957,7 +3966,7 @@ checksum = "700cb4e17f98c3f36756815b18dbec2b2e3c4f5028e9cdee3e23dd8c285e736c"
 dependencies = [
  "num-traits",
  "thiserror 2.0.21",
- "yuvxyb",
+ "yuvxyb 0.4.2",
  "yuvxyb-math",
 ]
 
@@ -4820,6 +4829,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "v_frame"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "06b99be99e91ea12170d453a6547324ef2df3fcd79aaf336f5b1fff88ac89d84"
+
+[[package]]
 name = "version-compare"
 version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5133,6 +5148,16 @@ dependencies = [
  "thiserror 2.0.21",
  "windows",
  "windows-core",
+]
+
+[[package]]
+name = "wide"
+version = "1.7.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d920ac99c3c8edce110cb8d07dbb324d6d026011dce85b1e9355b70f0adacc4f"
+dependencies = [
+ "bytemuck",
+ "safe_arch",
 ]
 
 [[package]]
@@ -5585,7 +5610,20 @@ dependencies = [
  "av-data",
  "log",
  "num-traits",
- "v_frame",
+ "v_frame 0.3.9",
+ "yuvxyb-math",
+]
+
+[[package]]
+name = "yuvxyb"
+version = "0.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8e540323d597041fe2bb8610a54df24011d3ef64341ef52257dafad96d22d5ba"
+dependencies = [
+ "av-data",
+ "log",
+ "v_frame 0.7.0",
+ "wide",
  "yuvxyb-math",
 ]
 
@@ -5594,6 +5632,9 @@ name = "yuvxyb-math"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "00f1f60154ad4ef9871d606765c3ea037cde93bbd77536327b594de8f82df1cb"
+dependencies = [
+ "wide",
+]
 
 [[package]]
 name = "zbus"
