@@ -13,6 +13,7 @@ function progressMessage(payload) {
   if(payload.stage==='prepare')return t('기준 이미지를 준비하고 있습니다.');
   if(payload.stage==='encode')return t('{codec} 파일을 줄이는 중',{codec});
   if(payload.stage==='evaluate')return t('{codec} 선명함을 확인하는 중',{codec});
+  if(payload.stage==='done')return t(labels[payload.message]||payload.message);
   return localize(payload.message);
 }
 const formatBytes = (n) => n < 1000 ? `${n} B` : n < 1000000 ? `${(n/1000).toFixed(1)} kB` : `${(n/1000000).toFixed(2)} MB`;
