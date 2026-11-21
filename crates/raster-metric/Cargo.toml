@@ -8,7 +8,7 @@ description = "SSIMULACRA2 0.5.1 with reusable reference features"
 [dependencies]
 num-traits = "0.2.15"
 thiserror = "2.0.9"
-yuvxyb = "0.4.1"
+yuvxyb = "0.6.0"
 rayon = { version = "1.5.3", optional = true }
 
 [build-dependencies]
