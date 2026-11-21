@@ -13,4 +13,4 @@ tauri = { version = "2", features = [] }
 rfd = "0.15"
 serde = { version = "1", features = ["derive"] }
 raster-core = { path = "../crates/raster-core" }
-base64 = "0.22"
+base64 = "0.23"
