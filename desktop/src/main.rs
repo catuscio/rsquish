@@ -58,10 +58,21 @@ struct JobProgress {
 }
 
 #[tauri::command]
-async fn pick_images() -> Result<Vec<PickedImage>, String> {
+async fn pick_images(language: Option<String>) -> Result<Vec<PickedImage>, String> {
     let selection = rfd::AsyncFileDialog::new()
-        .set_title("최적화할 사진 선택")
-        .add_filter("사진", &["jpg", "jpeg", "png", "webp"])
+        .set_title(if language.as_deref() == Some("ko") {
+            "최적화할 사진 선택"
+        } else {
+            "Choose images to optimize"
+        })
+        .add_filter(
+            if language.as_deref() == Some("ko") {
+                "사진"
+            } else {
+                "Images"
+            },
+            &["jpg", "jpeg", "png", "webp"],
+        )
         .pick_files()
         .await;
     selection
@@ -80,9 +91,13 @@ async fn pick_images() -> Result<Vec<PickedImage>, String> {
 }
 
 #[tauri::command]
-async fn pick_output_dir() -> Option<String> {
+async fn pick_output_dir(language: Option<String>) -> Option<String> {
     rfd::AsyncFileDialog::new()
-        .set_title("결과를 저장할 폴더 선택")
+        .set_title(if language.as_deref() == Some("ko") {
+            "결과를 저장할 폴더 선택"
+        } else {
+            "Choose output folder"
+        })
         .pick_folder()
         .await
         .map(|p| p.path().to_string_lossy().into_owned())

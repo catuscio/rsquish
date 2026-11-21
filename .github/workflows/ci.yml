@@ -35,8 +35,11 @@ jobs:
         run: cargo +stable clippy --locked --release --workspace --all-targets -- -D warnings
       - name: Tests
         run: cargo +stable test --locked --release --workspace
-      - name: Frontend syntax
+      - name: Frontend checks
         run: |
+          node --test tests/i18n.test.cjs
+          node --check desktop/ui/i18n.js
+          node --check desktop/ui/translations.js
           node --check desktop/ui/app.js
           node --check desktop/ui/preview.js
       - name: Package and verify
