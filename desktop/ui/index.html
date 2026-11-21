@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="rsquish — 내 컴퓨터에서 사진 용량과 화질을 비교해 최적화합니다.">
+  <title>rsquish · 사진 최적화</title>
+  <link rel="icon" type="image/png" href="brand/logo.png">
+  <link rel="stylesheet" href="styles.css">
+  <script src="preview.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+<main class="app">
+  <header class="topbar">
+    <div class="brand"><img class="mark" src="brand/logo.png" width="32" height="32" alt="" aria-hidden="true"><span class="brand-name">rsquish</span></div>
+    <span class="local">내 컴퓨터에서 처리</span>
+  </header>
+  <section class="intro" aria-labelledby="title">
+    <h1 id="title">사진의 용량을 가볍게.</h1>
+    <p>원하는 용량이나 화질을 정하고, 여러 형식의 실제 결과를 비교하세요.</p>
+  </section>
+  <p id="preview" class="notice" hidden>브라우저 미리보기입니다. 파일 선택과 최적화는 rsquish 데스크톱 앱에서 사용할 수 있습니다.</p>
+  <p id="error" class="notice error" role="alert" hidden></p>
+  <div class="workbench">
+    <section aria-labelledby="queue-count">
+      <div class="queue-panel">
+        <div class="queue-head"><h2 id="queue-count">사진 0개</h2><div class="actions"><button id="clear" class="quiet" type="button" disabled>목록 비우기</button><button id="add" type="button" disabled>사진 추가</button></div></div>
+        <div id="empty" class="empty">
+          <div class="file-symbol" aria-hidden="true">IMG</div>
+          <h2>사진을 추가하세요</h2>
+          <p class="muted">JPEG, PNG, WebP<br>원본은 그대로 두고 결과를 따로 저장합니다.</p>
+          <button id="add-empty" type="button" disabled>사진 선택</button>
+        </div>
+        <ol id="queue" class="ledger" aria-label="사진 처리 목록"></ol>
+        <div id="summary" class="queue-foot meta">원본 파일은 변경하지 않습니다.</div>
+      </div>
+      <div class="progress-region"><p id="status" role="status" aria-live="polite" class="muted">사진과 저장 폴더를 선택해 시작하세요.</p><progress id="progress" aria-label="현재 사진의 후보 비교 진행" hidden></progress></div>
+    </section>
+    <aside class="settings" aria-labelledby="settings-title">
+      <h2 id="settings-title">최적화 조건</h2>
+      <fieldset id="settings-fields">
+        <legend class="meta">모든 사진에 적용</legend>
+        <div class="settings-group">
+          <fieldset><legend>어떻게 줄일까요?</legend>
+            <div class="presets">
+              <label class="preset"><input type="radio" name="preset" value="small"><span><strong>용량 줄이기</strong><span>공유하기 편하게, 더 작게 저장해요.</span></span></label>
+              <label class="preset"><input type="radio" name="preset" value="balanced" checked><span><strong>균형 있게</strong><span>크기와 선명함을 함께 고려해요.</span></span></label>
+              <label class="preset"><input type="radio" name="preset" value="sharp"><span><strong>선명하게</strong><span>세부 표현을 더 중요하게 다뤄요.</span></span></label>
+            </div>
+          </fieldset>
+          <p id="preset-summary" class="hint">균형 있게 · 너비 최대 2,400px</p>
+          <p class="meta">선명함과 최대 너비만 바뀝니다. 형식과 용량 기준은 유지됩니다.</p>
+        </div>
+        <div class="settings-group">
+          <fieldset><legend>우선할 기준</legend><div class="mode-options"><label class="choice"><input type="radio" name="mode" value="target" checked>화질 우선</label><label class="choice"><input type="radio" name="mode" value="budget">파일 크기 맞추기</label></div></fieldset>
+          <p id="mode-hint" class="hint">선택한 선명함 기준을 만족하는 작은 파일을 찾습니다.</p>
+          <div id="budget-field" hidden><label class="field-label" for="budget">사진 한 장의 최대 크기</label><div class="number-with-unit"><input id="budget" type="number" min="0.000001" step="any" value="200" aria-describedby="budget-hint"><select id="budget-unit" aria-label="파일 크기 단위"><option value="3">kB</option><option value="6">MB</option></select></div><p id="budget-hint" class="hint">1 MB = 1,000 kB. 이 크기 안에서 가장 선명한 후보를 고릅니다.</p></div>
+        </div>
+        <div class="settings-group"><label class="field-label" for="format">저장 형식</label><select id="format"><option value="auto">자동 선택</option><option value="jpeg">JPEG · 호환성 우선</option><option value="webp">WebP · 웹용</option><option value="avif">AVIF · 작은 파일</option><option value="custom" hidden disabled>직접 설정</option></select><p id="format-hint" class="hint">WebP와 AVIF를 비교해 조건에 맞는 결과를 고릅니다.</p></div>
+        <div class="settings-group"><label class="field-label" for="concurrency">동시 처리</label><select id="concurrency" aria-describedby="concurrency-hint"><option value="0">자동 — 권장</option><option value="1">1개씩 — 메모리 절약</option><option value="2">2개씩</option><option value="3">3개씩</option><option value="4">4개씩</option></select><p id="concurrency-hint" class="hint">자동은 시작할 때 사진 크기와 여유 메모리를 확인합니다. 여러 장을 함께 처리하면 메모리를 더 사용합니다.</p></div>
+        <details id="advanced" class="advanced settings-group"><summary>고급 설정</summary>
+          <p class="hint">숫자와 압축 방식을 직접 조절할 때 사용하세요.</p>
+          <div id="target-field" class="advanced-field"><label class="field-label" for="target">화질 비교 점수</label><div class="number-with-unit"><input id="target" type="number" min="0" max="100" step="1" value="85" aria-describedby="target-hint"><span>점 이상</span></div><p id="target-hint" class="hint">SSIMULACRA2 기준입니다. 높은 점수도 시각적 무손실을 보장하지 않습니다.</p></div>
+          <div class="advanced-field"><label class="field-label" for="width">최대 너비 <span class="meta">(선택)</span></label><div class="number-with-unit"><input id="width" type="number" min="8" max="20000" step="1" value="2400" placeholder="원본 크기" aria-describedby="width-hint"><span>px</span></div><p id="width-hint" class="hint">빈칸이면 원본 크기. 비율을 유지해 축소합니다.</p></div>
+          <div class="advanced-field"><fieldset><legend>압축 방식</legend><div class="codec-grid"><label class="choice"><input type="checkbox" name="codec" value="mozjpeg">MozJPEG</label><label class="choice"><input type="checkbox" name="codec" value="webp" checked>WebP</label><label class="choice"><input type="checkbox" name="codec" value="avif-iq" checked>AVIF · IQ</label><label class="choice"><input type="checkbox" name="codec" value="avif-ssim" checked>AVIF · SSIM</label></div></fieldset><p class="hint">방식을 늘리면 처리 시간이 길어집니다.</p></div>
+          <div class="advanced-field"><label class="field-label" for="probes">방식당 탐색 횟수</label><input id="probes" type="number" min="3" max="32" step="1" value="7"></div>
+          <div class="advanced-field"><label class="field-label" for="seconds">사진당 탐색 시간</label><div class="number-with-unit"><input id="seconds" type="number" min="1" max="3600" step="1" value="120"><span>초</span></div><p class="hint">진행 중인 인코딩·평가가 끝난 뒤 시간 제한과 취소가 적용됩니다.</p></div>
+        </details>
+      </fieldset>
+      <div class="settings-group"><span class="field-label">저장 위치</span><button id="folder" class="folder-button" type="button" disabled>저장 폴더 선택</button><p id="folder-path" class="folder-path">아직 선택하지 않았습니다.</p></div>
+      <div class="run-actions"><button id="start" class="primary" type="button" disabled>최적화 시작</button><button id="cancel" type="button" hidden>취소</button></div>
+      <p class="hint">선택한 개수만큼 함께 처리하며, 원본은 그대로 둡니다.</p>
+    </aside>
+  </div>
+  <footer class="footer"><span>파일을 업로드하지 않습니다.</span><span>일반 사진을 지원합니다. 투명·움직이는 이미지와 HDR은 아직 지원하지 않습니다.</span></footer>
+</main>
+</body>
+</html>

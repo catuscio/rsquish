@@ -1,0 +1,165 @@
+{
+  "project": "rsquish",
+  "measuredUnderPreviousName": "Rasterkit",
+  "date": "2026-11-21",
+  "hardware": {
+    "chip": "Apple M4 Pro",
+    "logicalCpus": 14,
+    "memoryGiB": 48,
+    "os": "macOS 26.5.1"
+  },
+  "method": {
+    "photos": 4,
+    "widths": [
+      900,
+      2400
+    ],
+    "repeats": 2,
+    "order": [
+      [
+        1,
+        2,
+        3,
+        4
+      ],
+      [
+        4,
+        3,
+        2,
+        1
+      ]
+    ],
+    "targetScore": 85,
+    "codecs": [
+      "mozjpeg",
+      "webp",
+      "avif-iq",
+      "avif-ssim"
+    ],
+    "probesPerCodec": 7,
+    "maxSecondsPerImage": 300,
+    "deadlineReached": false,
+    "peakRssMethod": "macOS /usr/bin/time -l, one process including all threads"
+  },
+  "parity": {
+    "outputReports": 64,
+    "candidateRecords": 1792,
+    "selectedOutputHashesMatchSerial": true,
+    "candidateHashesAndScoresMatchSerial": true,
+    "originalsUnchanged": true
+  },
+  "runs": [
+    {
+      "width": 900,
+      "repeat": 0,
+      "jobs": 1,
+      "elapsedSeconds": 10.386715375003405,
+      "peakRssBytes": 505937920
+    },
+    {
+      "width": 900,
+      "repeat": 0,
+      "jobs": 2,
+      "elapsedSeconds": 5.87054699996952,
+      "peakRssBytes": 718307328
+    },
+    {
+      "width": 900,
+      "repeat": 0,
+      "jobs": 3,
+      "elapsedSeconds": 4.292249166988768,
+      "peakRssBytes": 768573440
+    },
+    {
+      "width": 900,
+      "repeat": 0,
+      "jobs": 4,
+      "elapsedSeconds": 3.5945689999498427,
+      "peakRssBytes": 1028620288
+    },
+    {
+      "width": 900,
+      "repeat": 1,
+      "jobs": 4,
+      "elapsedSeconds": 3.589386540930718,
+      "peakRssBytes": 1020592128
+    },
+    {
+      "width": 900,
+      "repeat": 1,
+      "jobs": 3,
+      "elapsedSeconds": 4.281124374945648,
+      "peakRssBytes": 752680960
+    },
+    {
+      "width": 900,
+      "repeat": 1,
+      "jobs": 2,
+      "elapsedSeconds": 5.864234667038545,
+      "peakRssBytes": 706871296
+    },
+    {
+      "width": 900,
+      "repeat": 1,
+      "jobs": 1,
+      "elapsedSeconds": 10.101899374974892,
+      "peakRssBytes": 505954304
+    },
+    {
+      "width": 2400,
+      "repeat": 0,
+      "jobs": 1,
+      "elapsedSeconds": 38.866705790976994,
+      "peakRssBytes": 614006784
+    },
+    {
+      "width": 2400,
+      "repeat": 0,
+      "jobs": 2,
+      "elapsedSeconds": 22.622422915999778,
+      "peakRssBytes": 1161150464
+    },
+    {
+      "width": 2400,
+      "repeat": 0,
+      "jobs": 3,
+      "elapsedSeconds": 15.175887916004285,
+      "peakRssBytes": 1561182208
+    },
+    {
+      "width": 2400,
+      "repeat": 0,
+      "jobs": 4,
+      "elapsedSeconds": 12.811902540968731,
+      "peakRssBytes": 1848950784
+    },
+    {
+      "width": 2400,
+      "repeat": 1,
+      "jobs": 4,
+      "elapsedSeconds": 12.815647582989186,
+      "peakRssBytes": 1852735488
+    },
+    {
+      "width": 2400,
+      "repeat": 1,
+      "jobs": 3,
+      "elapsedSeconds": 15.17906104202848,
+      "peakRssBytes": 1553842176
+    },
+    {
+      "width": 2400,
+      "repeat": 1,
+      "jobs": 2,
+      "elapsedSeconds": 22.687218750012107,
+      "peakRssBytes": 1152253952
+    },
+    {
+      "width": 2400,
+      "repeat": 1,
+      "jobs": 1,
+      "elapsedSeconds": 38.99510741699487,
+      "peakRssBytes": 632012800
+    }
+  ]
+}

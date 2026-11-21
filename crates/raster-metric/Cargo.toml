@@ -1,0 +1,22 @@
+[package]
+name = "raster-metric"
+version = "0.1.0"
+edition = "2021"
+license = "BSD-2-Clause"
+description = "SSIMULACRA2 0.5.1 with reusable reference features"
+
+[dependencies]
+num-traits = "0.2.15"
+thiserror = "2.0.9"
+yuvxyb = "0.4.1"
+rayon = { version = "1.5.3", optional = true }
+
+[build-dependencies]
+yuvxyb-math = "0.1"
+
+[dev-dependencies]
+upstream = { package = "ssimulacra2", version = "=0.5.1", default-features = false }
+
+[features]
+default = []
+rayon = ["dep:rayon"]

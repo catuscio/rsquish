@@ -1,0 +1,12 @@
+[workspace]
+members = ["crates/raster-codecs", "crates/raster-core", "crates/raster-cli", "crates/raster-metric", "desktop"]
+default-members = ["crates/raster-cli"]
+resolver = "2"
+
+[profile.dev]
+debug = 0
+
+[profile.release]
+strip = true
+lto = "thin"
+codegen-units = 1

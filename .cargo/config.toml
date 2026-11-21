@@ -1,0 +1,4 @@
+[env]
+# The locally installed Homebrew static archives were built for macOS 26+.
+# Rebuild all native archives before lowering this deployment target.
+MACOSX_DEPLOYMENT_TARGET = "26.5"

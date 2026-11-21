@@ -1,0 +1,11 @@
+[package]
+name = "raster-codecs"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+description = "Statically linked RGB8 image codecs for rsquish"
+build = "build.rs"
+links = "rasterkit_native_codecs"
+
+[build-dependencies]
+cc = "1.2"

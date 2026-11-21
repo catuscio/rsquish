@@ -1,0 +1,16 @@
+/target/
+/native/libavif/
+/native/libavif-build/
+/native/*.log
+/artifacts/
+/dist/
+/artifacts-*.log
+.DS_Store
+
+
+/desktop/gen/
+*.log
+.env
+.env.*
+!.env.example
+__pycache__/

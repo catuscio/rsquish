@@ -1,0 +1,12 @@
+{
+  "crate": "ssimulacra2",
+  "version": "0.5.1",
+  "source": "https://crates.io/crates/ssimulacra2/0.5.1",
+  "sha256": {
+    "build.rs": "e2c8248851157c5372459b6e4036f4301c3a9328031fe470dcca38806603c573",
+    "LICENSE": "acc9e236b0011c638714a16f5634fa5bcd3be111182e237c3049db700c3521e2",
+    "src/lib.rs": "922cb408c310071c2a7a9c4a02ba073fed2d3cb47d6513de51122a8a203e2dfa",
+    "src/blur/mod.rs": "6ca5e8f6b1fa2215fb2a5ccf70c87eead75b8229853adeec1ef3829bed6855b4",
+    "src/blur/gaussian.rs": "836c251340b42b281662d9cd8f159f1272d7ad5a04ebbbc1a8093d86c33cf48b"
+  }
+}

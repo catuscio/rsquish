@@ -1,0 +1,42 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  macos:
+    name: macOS
+    runs-on: macos-26
+    timeout-minutes: 40
+    env:
+      CARGO_TERM_COLOR: always
+      CARGO_BUILD_JOBS: 3
+      HOMEBREW_NO_AUTO_UPDATE: 1
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Rust toolchain
+        run: rustup toolchain install stable --profile minimal --component rustfmt --component clippy
+      - name: Native dependencies
+        run: |
+          brew install cmake mozjpeg webp aom libvmaf
+          bash native/build-libavif.sh
+      - name: Formatting
+        run: cargo +stable fmt --all -- --check
+      - name: Clippy
+        run: cargo +stable clippy --locked --release --workspace --all-targets -- -D warnings
+      - name: Tests
+        run: cargo +stable test --locked --release --workspace
+      - name: Frontend syntax
+        run: |
+          node --check desktop/ui/app.js
+          node --check desktop/ui/preview.js
+      - name: Package and verify
+        run: bash scripts/package-macos.sh
